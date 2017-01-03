@@ -71,6 +71,22 @@ Vehicle.prototype.runPickables=function(time){
     for(var i=0;i<this.upgrade.length;i++) this.upgrade[i]-=time;
     return thisSpeed;
 }
+Vehicle.prototype.validNewPostion=function(newPostion,physics,thtype)
+{
+    if(!thtype)thtype=1;
+    var link=this;
+    var coli=physics.free(newPostion,this.size-1);
+    coli.coliders=coli.coliders.filter(function(el)
+    {
+        return link!=el&&!(el instanceof Truper)&&(Math.abs(link.model.position.y-el.model.position.y)<link.size/2);
+    });
+
+    if(coli.pickables.length>0)
+                this.processPickables(coli.pickables);
+    var ret=(coli.map<thtype&&coli.coliders.length==0)
+    if(ret)  this.exitVehicle=false;
+    return ret;
+}
 Vehicle.prototype.processPickables=function(pickables)
 {
     for(var i=0;i<pickables.length;i++)

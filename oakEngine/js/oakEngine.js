@@ -46,8 +46,10 @@ OAK.Engine.prototype.keyPressed=function (e) {
 }
 OAK.Engine.prototype.keyReleased=function (e) {
     var key=e.keyCode
-    if(this.keysUp[key]) this.keysUp[key]();
-    e.preventDefault()
+    if(this.keysUp[key]){
+        this.keysUp[key]();
+        e.preventDefault();
+    }
 }
 
 

@@ -20,89 +20,80 @@ Tank.prototype.update=function(time,physics)
     if(!this.controler.sceneScope(this.model.position)) return;
     this.shootTimeOut-=time;
     var thisSpeed=this.runPickables(time);
-    this.driver.update(this,physics);
+    //{a,w,s,d,f,e}
+    var instructions=this.driver.getInstructions(this,physics);
+    if(instructions.e) 
+        this.exitVehicle=true;
+    if(instructions.f) this.shoot();
+
     var model=this.model;
-    var dest=this.dest;
-    var dX=dest.x-model.position.x;
-    var dZ=dest.z-model.position.z;
+    if(this.exitVehicle)
+    {
+        var toExit={
+                    x:model.position.x+Math.sin(model.rotation+Math.PI)*this.size*0.65,
+                    y:physics.getYDisp(model.position),
+                    z:model.position.z+Math.cos(model.rotation+Math.PI)*this.size*0.65};
+        var cleer=physics.free(toExit,2);
+        if(cleer.map==0&&cleer.coliders.length==0){
+            this.controler.exit(toExit,this.driver);
+            this.driver=null;
+            this.exitVehicle=false;
+            return;
+        }
+    }
+
+    var dX=-instructions.a+instructions.d;
+    var dZ=-instructions.s+instructions.w;
     var angle=Math.atan2(dX,dZ);
     var link=this;
     if(dX==0&&dZ==0)
-        angle=model.rotation;
-    if(dest.angle!=null)
-        angle=dest.angle;
+        return;
+    
+
     if(Math.abs(neerestAngle(model.rotation,angle))>this.turn_speed*time)
     {
         this.turn(time,angle);
+        if(colide(this.stable,model.position,8))
+        {
+            //fix atangemant to ease up moving trough town
+            var podN={
+            x:model.position.x,
+            y:physics.getYDisp(model.position),
+            z:model.position.z};
+
+            var razx=(this.stable.x-podN.x);
+            var razxa=Math.abs(razx);
+            if(razxa>time*this.speed){
+                razx/=razxa/this.speed;
+                podN.x+=razx*time;
+            }
+            else podN.x=this.stable.x;
+            var razz=(this.stable.z-podN.z);
+            var razza=Math.abs(razz);
+            if(razza>time*this.speed){
+                razz/=razza/this.speed;
+                podN.z+=razz*time;
+            }
+            else podN.z=this.stable.z;
+
+            if(this.validNewPostion(podN,physics))
+            {
+                model.position=podN;
+                this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
+            }
+        }
     }
     else
     {
         model.rotation=angle;
-        var podN={x:model.position.x,y:physics.getYDisp(model.position),z:model.position.z};
-		if(dX!=0)
-		{
-			if(dX<0) {
-                podN.x-=thisSpeed*time;
-                if(podN.x<dest.x)
-                    podN.x=dest.x;
-            }
-			else {
-                podN.x+=thisSpeed*time;
-                if(podN.x>dest.x)
-                    podN.x=dest.x;
-            }
-		}
-		if(dZ!=0)
-		{
-			if(dZ<0) 
-            {
-                podN.z-=thisSpeed*time;
-                if(podN.z<dest.z)
-                    podN.z=dest.z;
-            }
-			else 
-            {
-                podN.z+=thisSpeed*time;
-                if(podN.z>dest.z)
-                    podN.z=dest.z;
-            }
-		}
-    if(physics){
-        var coli=physics.free(podN,this.size);
-        var trupers=coli.coliders.filter(function(el)
-        {
-            return (el instanceof Truper);
-        });
-        coli.coliders=coli.coliders.filter(function(el)
-        {
-            return link!=el&&!(el instanceof Truper)&&(Math.abs(link.model.position.y-el.model.position.y)<10);
-        });
-        if(coli.map==0&&coli.coliders.length==0) {
+        var podN={
+            x:model.position.x+Math.sin(model.rotation)*thisSpeed*time,
+            y:physics.getYDisp(model.position),
+            z:model.position.z+Math.cos(model.rotation)*thisSpeed*time};
+         if(this.validNewPostion(podN,physics)){
             model.position=podN;
-            for(var i=0;i<trupers.length;i++)
-                trupers[i].demage({value:5000,owner:this.driver},1,physics);
-            if(coli.pickables.length>0)
-                this.processPickables(coli.pickables);
-            if(this.exitVehicle)
-            {
-                var cleer=physics.free(this.stable,this.size);
-                if(cleer.map==0&&cleer.coliders.length==0){
-                    this.controler.exit(this.stable,this.driver);
-                    this.driver=null;
-                    this.exitVehicle=false;
-                }
-            }
+            this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
         }
-        else
-        {
-            //this.valid=false;
-            var tmp=this.dest;
-            this.dest=this.stable;
-            this.stable=tmp;
-        }
-    }
-    else
-        model.position=podN;
     }
 }
 

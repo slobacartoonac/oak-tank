@@ -4,7 +4,7 @@
 function Truper(Amodel,controler,player) {
     var model=Amodel;
     if(player&&model.numText)model.curText=player.team;
-    PhysicalObject.call(this,Amodel,controler);
+    Vehicle.call(this,Amodel,controler);
     this.dest={x:model.position.x,y:model.position.y,z:model.position.z};
     this.stable={x:model.position.x,y:model.position.y,z:model.position.z};
     this.speed=20.0;
@@ -19,20 +19,18 @@ Truper.prototype.update=function(time,physics)
 {
     var thisSpeed=this.speed;
     var model=this.model;
-    var dest=this.dest;
-    var dX=dest.x-model.position.x;
-    var dZ=dest.z-model.position.z;
-    this.driver.update(this,physics);
+
+    var instructions=this.driver.getInstructions(this,physics);
+    var dX=-instructions.a+instructions.d;
+    var dZ=-instructions.s+instructions.w;
     var angle=Math.atan2(dX,dZ);
+    
     var link=this;
     this.pose+=time*6;
     if(dX==0&&dZ==0){
-        angle=model.rotation;
-        this.pose=0;
+        return;
     }
     model.curModel=Math.floor(this.pose);
-    if(dest.angle!=null)
-        angle=dest.angle;
     if(Math.abs(neerestAngle(model.rotation,angle))>this.turn_speed*time)
     {
         this.turn(time,angle);
@@ -40,66 +38,49 @@ Truper.prototype.update=function(time,physics)
     else
     {
         model.rotation=angle;
-        var podN={x:model.position.x,y:model.position.y,z:model.position.z};
-		if(dX!=0)
-		{
-			if(dX<0) {
-                podN.x-=thisSpeed*time;
-                if(podN.x<dest.x)
-                    podN.x=dest.x;
-            }
-			else {
-                podN.x+=thisSpeed*time;
-                if(podN.x>dest.x)
-                    podN.x=dest.x;
-            }
-		}
-		if(dZ!=0)
-		{
-			if(dZ<0) 
-            {
-                podN.z-=thisSpeed*time;
-                if(podN.z<dest.z)
-                    podN.z=dest.z;
-            }
-			else 
-            {
-                podN.z+=thisSpeed*time;
-                if(podN.z>dest.z)
-                    podN.z=dest.z;
-            }
-		}
-    if(physics){
-        var coli=physics.free(podN,this.size);
-        coli.coliders=coli.coliders.filter(function(el)
+        var podN={
+            x:model.position.x+Math.sin(model.rotation)*thisSpeed*time,
+            y:physics.getYDisp(model.position),
+            z:model.position.z+Math.cos(model.rotation)*thisSpeed*time};
+        if(this.validNewPostion(podN,physics))
         {
-            return link!=el&&(Math.abs(link.model.position.y-el.model.position.y)<10);
-        });
-        if(coli.map==0&&coli.coliders.length==0) {
-            model.position=podN;
-            //if(coli.pickables.length>0)
-            //    this.processPickables(coli.pickables);
-        }
-        else
-        {
-            var host=coli.coliders.filter(function(el)
-                {
-                    return !el.driver&&el instanceof Vehicle;
-                });
-            if(host.length>0)
-            {
-                this.valid=false;
-                host[0].setDriver(this.driver);
-            }
-            //this.valid=false;
-            var tmp=this.dest;
-            this.dest=this.stable;
-            this.stable=tmp;
+            model.position=podN
         }
     }
-    else
-        model.position=podN;
+}
+Truper.prototype.validNewPostion=function(newPostion,physics)
+{
+    var link=this;
+    var coli=physics.free(newPostion,this.size);
+    coli.coliders=coli.coliders.filter(function(el)
+    {
+        return link!=el&&(Math.abs(link.model.position.y-el.model.position.y)<10);
+    });
+    var host=[];
+    var runOver=[];
+    coli.coliders.forEach(function(el) {
+        if(el instanceof Vehicle)
+        {
+            if(!el.driver)
+            {
+                host.push(el);
+            }
+            else
+            {
+                runOver.push(el);
+            }
+        }
+    }, this);
+    if(host.length>0)
+    {
+        this.valid=false;
+        host[0].setDriver(this.driver);
     }
+    if(runOver.length>0)
+    {
+        this.demage({owner:runOver[0].driver,value:1},2,physics);
+    }
+    return (coli.map==0&&coli.coliders.length==0);
 }
 Truper.prototype.processPickables=function(pickables)
 {

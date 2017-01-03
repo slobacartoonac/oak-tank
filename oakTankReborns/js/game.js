@@ -26,25 +26,25 @@ function gameRemoveLoading(){
 function eventRight()
 {
 
-    player.direction(-20,0);
+    player.direction(-20,null);
 }
 
 function eventLeft()
 {
 
-    player.direction(20,0);
+    player.direction(20,null);
 }
 
 function eventUp()
 {
 
-    player.direction(0,20);
+    player.direction(null,20);
 }
 
 function eventDown()
 {
 
-   player.direction(0,-20);
+   player.direction(null,-20);
 }
 
 function eventStop()
