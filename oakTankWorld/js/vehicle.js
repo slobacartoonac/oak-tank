@@ -84,7 +84,7 @@ Vehicle.prototype.validNewPostion=function(newPostion,physics,thtype)
     if(coli.pickables.length>0)
                 this.processPickables(coli.pickables);
     var ret=(coli.map<thtype&&coli.coliders.length==0)
-    if(ret)  this.exitVehicle=false;
+    if(!ret)  this.exitVehicle=false;
     return ret;
 }
 Vehicle.prototype.processPickables=function(pickables)
@@ -98,93 +98,47 @@ Vehicle.prototype.processPickables=function(pickables)
 
 Vehicle.prototype.update=function(time,physics)
 {
-    var thisSpeed=this.speed;
-    if(this.driver)this.driver.update(this,physics);
-    var model=this.model;
-    var dest=this.dest;
-    var dX=dest.x-model.position.x;
-    var dZ=dest.z-model.position.z;
-    var angle=Math.atan2(dX,dZ);
-    var link=this;
-    if(dX==0&&dZ==0)
-        angle=model.rotation;
-    if(dest.angle!=null)
-        angle=dest.angle;
-    if(Math.abs(neerestAngle(model.rotation,angle))>this.turn_speed*time)
-    {
-        this.turn(time,angle);
-    }
-    else
-    {
-        model.rotation=angle;
-        var podN={x:model.position.x,y:model.position.y,z:model.position.z};
-		if(dX!=0)
-		{
-			if(dX<0) {
-                podN.x-=thisSpeed*time;
-                if(podN.x<dest.x)
-                    podN.x=dest.x;
-            }
-			else {
-                podN.x+=thisSpeed*time;
-                if(podN.x>dest.x)
-                    podN.x=dest.x;
-            }
-		}
-		if(dZ!=0)
-		{
-			if(dZ<0) 
-            {
-                podN.z-=thisSpeed*time;
-                if(podN.z<dest.z)
-                    podN.z=dest.z;
-            }
-			else 
-            {
-                podN.z+=thisSpeed*time;
-                if(podN.z>dest.z)
-                    podN.z=dest.z;
-            }
-		}
-    if(physics){
-        var coli=physics.free(podN,this.size);
-        var trupers=coli.coliders.filter(function(el)
-        {
-            return (el instanceof Truper);
-        });
-        coli.coliders=coli.coliders.filter(function(el)
-        {
-            return link!=el&&!(el instanceof Truper);
-        });
-        if(coli.map==0&&coli.coliders.length==0) {
-            model.position=podN;
-            for(var i=0;i<trupers.length;i++)
-                trupers[i].demage(5000,1,physics);
-            if(coli.pickables.length>0)
-                this.processPickables(coli.pickables);
-            if(this.exitVehicle)
-            {
-                var cleer=physics.free(this.stable,this.size);
-                if(cleer.map==0&&cleer.coliders.length==0){
-                    this.controler.exit(this.stable,this.driver);
-                    this.driver=null;
-                    this.exitVehicle=false;
-                }
-            }
-        }
-        else
-        {
-            //this.valid=false;
-            var tmp=this.dest;
-            this.dest=this.stable;
-            this.stable=tmp;
-        }
-    }
-    else
-        model.position=podN;
-    }
-}
 
+}
+Vehicle.prototype.corectPostition=function(physics,time,baseh)
+{
+    var model=this.model;
+    if(colide(this.stable,model.position,8))
+        {
+            //fix atangemant to ease up moving trough town
+            var podN={
+            x:model.position.x,
+            y:model.position.y,
+            z:model.position.z};
+            if(Math.abs(Math.sin(model.rotation))<Math.abs(Math.cos(model.rotation))){
+                var razx=(this.stable.x-podN.x);
+                var razxa=Math.abs(razx);
+                if(razxa>time*this.speed/2){
+                    razx/=razxa/this.speed*2;
+                    podN.x+=razx*time;
+                }
+                else podN.x=this.stable.x;
+            }
+            else
+            {
+                var razz=(this.stable.z-podN.z);
+                var razza=Math.abs(razz);
+                if(razza>time*this.speed/2){
+                    razz/=razza/this.speed*2;
+                    podN.z+=razz*time;
+                }
+                else podN.z=this.stable.z;
+            }
+            if(this.validNewPostion(podN,physics))
+            {
+                this.newPosition(podN,baseh);
+            }
+        }
+}
+Vehicle.prototype.newPosition=function(podN,baseh){
+    this.model.position=podN;
+    this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
+}
 Vehicle.prototype.turn=function(time,angle)
 {
     var model=this.model;

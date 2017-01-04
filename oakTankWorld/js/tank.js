@@ -53,35 +53,6 @@ Tank.prototype.update=function(time,physics)
     if(Math.abs(neerestAngle(model.rotation,angle))>this.turn_speed*time)
     {
         this.turn(time,angle);
-        if(colide(this.stable,model.position,8))
-        {
-            //fix atangemant to ease up moving trough town
-            var podN={
-            x:model.position.x,
-            y:physics.getYDisp(model.position),
-            z:model.position.z};
-
-            var razx=(this.stable.x-podN.x);
-            var razxa=Math.abs(razx);
-            if(razxa>time*this.speed){
-                razx/=razxa/this.speed;
-                podN.x+=razx*time;
-            }
-            else podN.x=this.stable.x;
-            var razz=(this.stable.z-podN.z);
-            var razza=Math.abs(razz);
-            if(razza>time*this.speed){
-                razz/=razza/this.speed;
-                podN.z+=razz*time;
-            }
-            else podN.z=this.stable.z;
-
-            if(this.validNewPostion(podN,physics))
-            {
-                model.position=podN;
-                this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
-            }
-        }
     }
     else
     {
@@ -94,6 +65,7 @@ Tank.prototype.update=function(time,physics)
             model.position=podN;
             this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
         }
+        else this.corectPostition(physics,time);
     }
 }
 

@@ -13,7 +13,7 @@ function Choper(model,model1,controler) {
     this.helth=this.helthMax;
     this.shootTimeOut=2;
     this.elise_speed=0;
-    this.flyHeight=15;
+    this.flyHeight=17;
     this.shootSpeed=0.65;
 };
 Choper.prototype=Object.create(Vehicle.prototype);
@@ -67,9 +67,11 @@ Choper.prototype.update=function(time,physics)
     var targeth=baseh+this.flyHeight;
 
     var razh=physics.getYDisp(this.model.position)-this.model.position.y;
-    
-    this.flyUp(time,this.exitVehicle?groundh:targeth);
-
+    var theActual=this.exitVehicle?groundh:targeth;
+    if(this.validNewPostion({x:model.position.x,y:theActual,z:model.position.z},physics,2))
+        this.flyUp(time,theActual);
+    else 
+        this.flyUp(time,model.position.y+1);
     if(this.exitVehicle&&Math.abs(razh)<0.5)
     {
         var toExit={
@@ -110,35 +112,6 @@ Choper.prototype.update=function(time,physics)
     {
         if(this.model.position.y-baseh>this.flyHeight/3){
          this.turn(time,angle);
-        if(colide(this.stable,model.position,8))
-        {
-            //fix atangemant to ease up moving trough town
-            var podN={
-            x:model.position.x,
-            y:model.position.y,
-            z:model.position.z};
-
-            var razx=(this.stable.x-podN.x);
-            var razxa=Math.abs(razx);
-            if(razxa>time*this.speed){
-                razx/=razxa/this.speed;
-                podN.x+=razx*time;
-            }
-            else podN.x=this.stable.x;
-            var razz=(this.stable.z-podN.z);
-            var razza=Math.abs(razz);
-            if(razza>time*this.speed){
-                razz/=razza/this.speed;
-                podN.z+=razz*time;
-            }
-            else podN.z=this.stable.z;
-
-            if(this.validNewPostion(podN,physics))
-            {
-                this.newPosition(podN,baseh);
-                this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
-            }
-        }
     }
         
     }
@@ -155,16 +128,20 @@ Choper.prototype.update=function(time,physics)
         }*/
         if(this.validNewPostion(podN,physics,2)) {
             this.newPosition(podN,baseh);
-            this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
+            
         }
+        else this.corectPostition(physics,time,baseh);
     }
 }
 Choper.prototype.newPosition=function(podN,baseh)
 {
-    if(this.model.position.y-baseh>this.flyHeight/2)
+    if(this.model.position.y-baseh>this.flyHeight/2){
         this.model.position=podN;
         this.model1.position.x=podN.x;
-        this.model1.position.z=podN.z;
+    this.model1.position.z=podN.z;
+    this.stable={x:(((podN.x+10)/20)<<0)*20,y:podN.y,z:(((podN.z+10)/20)<<0)*20};
+    }
+    
 }
 
 Choper.prototype.shoot=function()

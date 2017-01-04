@@ -23,7 +23,7 @@ Enemy.prototype.getInstructions=function(vehicle,physics)
     var ret=this.oldControl;
     ret.f=0;
     ret.e=0;
-    if(this.oldStable.x!=vehicle.stable.x||this.oldStable.z!=vehicle.stable.z||
+    if(((this.oldStable.x!=vehicle.stable.x||this.oldStable.z!=vehicle.stable.z)&&colide(vehicle.stable,vehicle.model.position,5))||
     (vehicle.model.position.x==this.vehicleOldPosition.x&&vehicle.model.position.z==this.vehicleOldPosition.z&&vehicle.model.rotation==this.vehicleOldPosition.y))
     {
         this.oldStable.x=vehicle.stable.x;
