@@ -46,12 +46,26 @@ function eventDown()
 
    player.direction(null,-20);
 }
-
 function eventStop()
 {
     player.direction(0,0);
     console.log('stop');
 }
+
+function eventStopUpDown()
+{
+    player.direction(null,0);
+    console.log('stop');
+}
+function eventStopLeftRight()
+{
+    player.direction(0,null);
+    console.log('stop');
+}
+
+
+
+
 function eventClicked()
 {
     player.shoot=1;
@@ -272,16 +286,16 @@ for (var i = 0; i <= 50; i += 1) {
 
 engine.onKey('W'.charCodeAt(0),function(){
 eventUp();
-},function(){eventStop();});
+},function(){eventStopUpDown();});
 engine.onKey('S'.charCodeAt(0),function(){
 eventDown();
-},function(){eventStop();});
+},function(){eventStopUpDown();});
 engine.onKey('A'.charCodeAt(0),function(){
 eventLeft();
-},function(){eventStop();});
+},function(){eventStopLeftRight();});
 engine.onKey("D".charCodeAt(0),function(){
 eventRight();
-},function(){eventStop();});
+},function(){eventStopLeftRight();});
 engine.onKey('U'.charCodeAt(0),function(){
 camera.position.y-=5;
 camera.matCalctulate();
@@ -305,20 +319,20 @@ engine.onKey(32,eventShoot,eventDontShot);
 engine.onKey(38,function(){
     eventUp();      
 },function(){ 
-    eventStop();    
+    eventStopUpDown();    
 });
 engine.onKey(40,function(){
     eventDown();
-},function(){   eventStop();    
+},function(){   eventStopUpDown();    
 });
 engine.onKey(37,function(){
         eventLeft();
-},function(){    eventStop();
+},function(){    eventStopLeftRight();
 });
 engine.onKey(39,function(){
     eventRight();
 },function(){   
-    eventStop();
+    eventStopLeftRight();
 });
 };
 window.onload=start;
