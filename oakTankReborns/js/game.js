@@ -114,13 +114,11 @@ engine.selectCanvas(canvas);
         program:null,
         vertex: shader_vertex_source1,
         fragment: shader_fragment_source1,
-        uniform:shader_uniform_source1,
-        attribute:shader_attribure_source1,
+        uniform: shader_uniform_source1,
+        attribute: shader_attribure_source1,
         }
         );
     engine.selectShader("water");
-    //engine.vertexShader(shader_vertex_source1);
-    //engine.fragmentShader(shader_fragment_source1);
     engine.vertexShader(shader_vertex_water);
     engine.fragmentShader(shader_fragment_water);
     engine.initShaders();
@@ -157,50 +155,50 @@ toload.forEach(function(element) {
 loader.onLoad(function (data) {
      
 
-     engine.loadTexture("explosion","./img/explosion1.png");
-     engine.loadTexture("barrel","./img/barrel.png");
-    engine.loadTexture("water","./img/water6.png");
-     engine.loadTexture("kucica","./img/kucica2.png");
-    engine.loadTexture("to2","./img/rest3.png");
-    engine.loadTexture("tankg","./img/tankg.png");
-    engine.loadTexture("tankb","./img/tankb.png");
-    engine.loadTexture("brick","./img/mbrick2.png");
-    engine.loadTexture("mine","./img/mine.png");
-    engine.loadTexture("grass","./img/grass1.png");
-    engine.loadTexture("base","./img/base.png");
-    engine.loadTexture("fanceb","./img/fanceb.png");
-    engine.loadTexture("fence1","./img/fence1.png");
-    engine.loadTexture("fence2","./img/fence2.png");
-    engine.loadTexture("concrete","./img/concrete.png");
-    engine.loadTexture("power","./img/power.png");
-    engine.loadTexture("power1","./img/power1.png");
-    engine.loadTexture("grid","./img/grid.png");
-    engine.loadTexture("star","./img/star.png");
-    engine.loadTexture("dirt","./img/dirt.png");
+     engine.loadTexture("explosion","img/explosion1.png");
+     engine.loadTexture("barrel","img/barrel.png");
+    engine.loadTexture("water","img/water6.png");
+     engine.loadTexture("kucica","img/kucica2.png");
+    engine.loadTexture("to2","img/rest3.png");
+    engine.loadTexture("tankg","img/tankg.png");
+    engine.loadTexture("tankb","img/tankb.png");
+    engine.loadTexture("brick","img/mbrick2.png");
+    engine.loadTexture("mine","img/mine.png");
+    engine.loadTexture("grass","img/grass1.png");
+    engine.loadTexture("base","img/base.png");
+    engine.loadTexture("fanceb","img/fanceb.png");
+    engine.loadTexture("fence1","img/fence1.png");
+    engine.loadTexture("fence2","img/fence2.png");
+    engine.loadTexture("concrete","img/concrete.png");
+    engine.loadTexture("power","img/power.png");
+    engine.loadTexture("power1","img/power1.png");
+    engine.loadTexture("grid","img/grid.png");
+    engine.loadTexture("star","img/star.png");
+    engine.loadTexture("dirt","img/dirt.png");
 
-    engine.loadTexture("pgun","./img/pgun.png");
-    engine.loadTexture("phelth","./img/phelth.png");
-    engine.loadTexture("pinvins","./img/pinvins.png");
-    engine.loadTexture("pspeed","./img/pspeed.png");
-    engine.loadTexture("trail","./img/trail.png");
-    engine.loadTexture("mans","./img/mans.png");
-    engine.loadTexture("mangreen","./img/mangreen.png");
-    engine.loadTexture("manblue","./img/manblue.png");
+    engine.loadTexture("pgun","img/pgun.png");
+    engine.loadTexture("phelth","img/phelth.png");
+    engine.loadTexture("pinvins","img/pinvins.png");
+    engine.loadTexture("pspeed","img/pspeed.png");
+    engine.loadTexture("trail","img/trail.png");
+    engine.loadTexture("mans","img/mans.png");
+    engine.loadTexture("mangreen","img/mangreen.png");
+    engine.loadTexture("manblue","img/manblue.png");
 
-    engine.loadTexture("tankgunr","./img/tankgunr.png");
-    engine.loadTexture("tankgunb","./img/tankgunb.png");
-    engine.loadTexture("tankgung","./img/tankgung.png");
+    engine.loadTexture("tankgunr","img/tankgunr.png");
+    engine.loadTexture("tankgunb","img/tankgunb.png");
+    engine.loadTexture("tankgung","img/tankgung.png");
 
-    engine.loadTexture("choperb","./img/choperb.png");
-    engine.loadTexture("choperg","./img/choperg.png");
+    engine.loadTexture("choperb","img/choperb.png");
+    engine.loadTexture("choperg","img/choperg.png");
 
-    engine.loadTexture("elise","./img/elise.png");
-    engine.loadTexture("elise1","./img/elise1.png");
+    engine.loadTexture("elise","img/elise.png");
+    engine.loadTexture("elise1","img/elise1.png");
 
-    engine.loadTexture("road","./img/road.png");
-    engine.loadTexture("road2","./img/road2.png");
-    engine.loadTexture("cursor","./img/cursor.png");
-    engine.loadTexture("bloodstain","./img/bloodstain.png");
+    engine.loadTexture("road","img/road.png");
+    engine.loadTexture("road2","img/road2.png");
+    engine.loadTexture("cursor","img/cursor.png");
+    engine.loadTexture("bloodstain","img/bloodstain.png");
     
     run();
 });
@@ -274,7 +272,7 @@ for (var i = 0; i <= 50; i += 1) {
         physics.teamMembers[0]=0;
         physics.teamMembers[1]=0;
         sound.update();
-        if(rrr%30==0){
+        if(rrr%500==0){
             console.log(OAK.framerate);
     }
     
