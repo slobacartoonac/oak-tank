@@ -41,10 +41,6 @@ result[2][2] =  (A[0][0]*A[1][1]-A[1][0]*A[0][1])*invdet;\n\
 return result;\n\
 }\n\ */
 
-
-
-
-
   var shader_fragment_source1="\n\
 precision mediump float;\n\
 uniform sampler2D sampler, samplerShadowMap;\n\

@@ -13,9 +13,11 @@ function Shader(gl,vertex,fragment,uniforms,atribs)
     gl.linkProgram(shaderProgram);
     var link=this;
 
-    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-            throw "Could not initialise shaders";
-        }
+    var success = gl.getProgramParameter(shaderProgram, gl.LINK_STATUS);
+    if (!success) {
+      // Something went wrong during compilation; get the error
+      throw "could not compile shader:" + gl.getProgramInfoLog(shaderProgram);
+    }
     uniforms.forEach(function(e){
         link[e]=gl.getUniformLocation(shaderProgram, e);
     });

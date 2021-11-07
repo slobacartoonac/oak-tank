@@ -112,29 +112,29 @@ engine.selectCanvas(canvas);
         {
         name: "defolt",
         program:null,
-        vertex: shader_vertex_source1,
-        fragment: shader_fragment_source1,
+        vertex: shader_vertex_source,
+        fragment: shader_fragment_source,
         uniform: shader_uniform_source1,
         attribute: shader_attribure_source1,
         }
         );
-    engine.selectShader("water");
-    engine.vertexShader(shader_vertex_water);
-    engine.fragmentShader(shader_fragment_water);
-    engine.initShaders();
-    engine.selectShader("shadow");
-    engine.vertexShader(shader_vertex_source_shadowMap);
-    engine.fragmentShader(shader_fragment_source_shadowMap);
-    engine.initShaders();
-    engine.selectShader("efects");
-    engine.vertexShader(efectVert);
-    engine.fragmentShader(efectFrag);
-    engine.initShaders();
+    // engine.selectShader("water");
+    // engine.vertexShader(shader_vertex_water);
+    // engine.fragmentShader(shader_fragment_water);
+    // engine.initShaders();
+    // engine.selectShader("shadow");
+    // engine.vertexShader(shader_vertex_source_shadowMap);
+    // engine.fragmentShader(shader_fragment_source_shadowMap);
+    // engine.initShaders();
+    // engine.selectShader("efects");
+    // engine.vertexShader(efectVert);
+    // engine.fragmentShader(efectFrag);
+    // engine.initShaders();
 
 myAudio.init();
-myAudio.requestSound('shot','data/shot.wav');
-myAudio.requestSound('explosion','data/explosion.wav');
-myAudio.requestSound('launch','data/launch.wav');
+myAudio.requestSound('shot','../oakTankWorld/data/shot.wav');
+myAudio.requestSound('explosion','../oakTankWorld/data/explosion.wav');
+myAudio.requestSound('launch','../oakTankWorld/data/launch.wav');
 
 var mapLeg=new MapLegend();
 
@@ -155,50 +155,50 @@ toload.forEach(function(element) {
 loader.onLoad(function (data) {
      
 
-     engine.loadTexture("explosion","img/explosion1.png");
-     engine.loadTexture("barrel","img/barrel.png");
-    engine.loadTexture("water","img/water6.png");
-     engine.loadTexture("kucica","img/kucica2.png");
-    engine.loadTexture("to2","img/rest3.png");
-    engine.loadTexture("tankg","img/tankg.png");
-    engine.loadTexture("tankb","img/tankb.png");
-    engine.loadTexture("brick","img/mbrick2.png");
-    engine.loadTexture("mine","img/mine.png");
-    engine.loadTexture("grass","img/grass1.png");
-    engine.loadTexture("base","img/base.png");
-    engine.loadTexture("fanceb","img/fanceb.png");
-    engine.loadTexture("fence1","img/fence1.png");
-    engine.loadTexture("fence2","img/fence2.png");
-    engine.loadTexture("concrete","img/concrete.png");
-    engine.loadTexture("power","img/power.png");
-    engine.loadTexture("power1","img/power1.png");
-    engine.loadTexture("grid","img/grid.png");
-    engine.loadTexture("star","img/star.png");
-    engine.loadTexture("dirt","img/dirt.png");
+     engine.loadTexture("explosion","../oakTankWorld/img/explosion1.png");
+     engine.loadTexture("barrel","../oakTankWorld/img/barrel.png");
+    engine.loadTexture("water","../oakTankWorld/img/water6.png");
+     engine.loadTexture("kucica","../oakTankWorld/img/kucica2.png");
+    engine.loadTexture("to2","../oakTankWorld/img/rest3.png");
+    engine.loadTexture("tankg","../oakTankWorld/img/tankg.png");
+    engine.loadTexture("tankb","../oakTankWorld/img/tankb.png");
+    engine.loadTexture("brick","../oakTankWorld/img/mbrick2.png");
+    engine.loadTexture("mine","../oakTankWorld/img/mine.png");
+    engine.loadTexture("grass","../oakTankWorld/img/grass1.png");
+    engine.loadTexture("base","../oakTankWorld/img/base.png");
+    engine.loadTexture("fanceb","../oakTankWorld/img/fanceb.png");
+    engine.loadTexture("fence1","../oakTankWorld/img/fence1.png");
+    engine.loadTexture("fence2","../oakTankWorld/img/fence2.png");
+    engine.loadTexture("concrete","../oakTankWorld/img/concrete.png");
+    engine.loadTexture("power","../oakTankWorld/img/power.png");
+    engine.loadTexture("power1","../oakTankWorld/img/power1.png");
+    engine.loadTexture("grid","../oakTankWorld/img/grid.png");
+    engine.loadTexture("star","../oakTankWorld/img/star.png");
+    engine.loadTexture("dirt","../oakTankWorld/img/dirt.png");
 
-    engine.loadTexture("pgun","img/pgun.png");
-    engine.loadTexture("phelth","img/phelth.png");
-    engine.loadTexture("pinvins","img/pinvins.png");
-    engine.loadTexture("pspeed","img/pspeed.png");
-    engine.loadTexture("trail","img/trail.png");
-    engine.loadTexture("mans","img/mans.png");
-    engine.loadTexture("mangreen","img/mangreen.png");
-    engine.loadTexture("manblue","img/manblue.png");
+    engine.loadTexture("pgun","../oakTankWorld/img/pgun.png");
+    engine.loadTexture("phelth","../oakTankWorld/img/phelth.png");
+    engine.loadTexture("pinvins","../oakTankWorld/img/pinvins.png");
+    engine.loadTexture("pspeed","../oakTankWorld/img/pspeed.png");
+    engine.loadTexture("trail","../oakTankWorld/img/trail.png");
+    engine.loadTexture("mans","../oakTankWorld/img/mans.png");
+    engine.loadTexture("mangreen","../oakTankWorld/img/mangreen.png");
+    engine.loadTexture("manblue","../oakTankWorld/img/manblue.png");
 
-    engine.loadTexture("tankgunr","img/tankgunr.png");
-    engine.loadTexture("tankgunb","img/tankgunb.png");
-    engine.loadTexture("tankgung","img/tankgung.png");
+    engine.loadTexture("tankgunr","../oakTankWorld/img/tankgunr.png");
+    engine.loadTexture("tankgunb","../oakTankWorld/img/tankgunb.png");
+    engine.loadTexture("tankgung","../oakTankWorld/img/tankgung.png");
 
-    engine.loadTexture("choperb","img/choperb.png");
-    engine.loadTexture("choperg","img/choperg.png");
+    engine.loadTexture("choperb","../oakTankWorld/img/choperb.png");
+    engine.loadTexture("choperg","../oakTankWorld/img/choperg.png");
 
-    engine.loadTexture("elise","img/elise.png");
-    engine.loadTexture("elise1","img/elise1.png");
+    engine.loadTexture("elise","../oakTankWorld/img/elise.png");
+    engine.loadTexture("elise1","../oakTankWorld/img/elise1.png");
 
-    engine.loadTexture("road","img/road.png");
-    engine.loadTexture("road2","img/road2.png");
-    engine.loadTexture("cursor","img/cursor.png");
-    engine.loadTexture("bloodstain","img/bloodstain.png");
+    engine.loadTexture("road","../oakTankWorld/img/road.png");
+    engine.loadTexture("road2","../oakTankWorld/img/road2.png");
+    engine.loadTexture("cursor","../oakTankWorld/img/cursor.png");
+    engine.loadTexture("bloodstain","../oakTankWorld/img/bloodstain.png");
     
     run();
 });

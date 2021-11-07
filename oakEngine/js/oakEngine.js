@@ -78,14 +78,7 @@ OAK.Engine.prototype.vertexShader=function (shaderScript) {
         }
         if(!this.canvas) throw "select canvas first"
         var shader;
-        var gl=this.canvas;
-        shader = gl.createShader(gl.VERTEX_SHADER);
-        gl.shaderSource(shader, shaderScript);
-        gl.compileShader(shader);
-
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            throw "vertex shader compile faild: "+gl.getShaderInfoLog(shader);
-        }
+        var shader=this.compileShader(this.canvas, shaderScript, this.canvas.VERTEX_SHADER);
         this.shaders[this.curShader].vertex=shader;
         return shader;
     }
@@ -94,15 +87,8 @@ OAK.Engine.prototype.fragmentShader=function (shaderScript) {
             throw "no vertex shader code";
         }
         if(!this.canvas) throw "select canvas first"
-        var shader;
-        var gl=this.canvas;
-        shader = gl.createShader(gl.FRAGMENT_SHADER);
-        gl.shaderSource(shader, shaderScript);
-        gl.compileShader(shader);
+        var shader=this.compileShader(this.canvas, shaderScript, this.canvas.FRAGMENT_SHADER);
 
-        if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
-            throw "fragment shader compile faild: "+gl.getShaderInfoLog(shader);
-        }
         this.shaders[this.curShader].fragment=shader;
         return shader;
     }
@@ -115,8 +101,28 @@ OAK.Engine.prototype.selectShader=function(cur) {
         this.shaderProgram.select();
     }
 
+OAK.Engine.prototype.compileShader = function(gl, shaderSource, shaderType) {
+        // Create the shader object
+        var shader = gl.createShader(shaderType);
+        
+        // Set the shader source code.
+        gl.shaderSource(shader, shaderSource);
+        
+        // Compile the shader
+        gl.compileShader(shader);
+        
+        // Check if it compiled
+        var success = gl.getShaderParameter(shader, gl.COMPILE_STATUS);
+        if (!success) {
+            // Something went wrong during compilation; get the error
+            throw "could not compile shader:" + gl.getShaderInfoLog(shader);
+        }
+        
+        return shader;
+    }
+    
+
 OAK.Engine.prototype.initShaders=function() {
-        var shaderProgram;
         var gl=this.canvas;
         if(!gl) throw "canvas not selected";
         if(!this.shaders[this.curShader]) throw "shaders not compiled for selection "+this.curShader;
@@ -125,8 +131,8 @@ OAK.Engine.prototype.initShaders=function() {
         var fragmentShader = this.shaders[this.curShader].fragment;
         var vertexShader = this.shaders[this.curShader].vertex;
         this.shaderProgram=new Shader(gl,vertexShader,fragmentShader,
-        ["Pmatrix","Vmatrix","Mmatrix","Flights","Lmatrix","PmatrixLight","source_direction","sampler","samplerShadowMap","time","inv_trans"],
-        ["position","uv","normal"]);
+            this.shaders[this.curShader].uniform,
+            this.shaders[this.curShader].attribute);
         this.shaders[this.curShader].program=this.shaderProgram;
         gl.uniform1i(this.shaderProgram.sampler, 0);
         gl.uniform1i(this.shaderProgram.samplerShadowMap, 1);
