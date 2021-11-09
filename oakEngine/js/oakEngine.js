@@ -42,7 +42,8 @@ OAK.Engine.prototype.onKey=function (key,funDown,funUp) {
 OAK.Engine.prototype.keyPressed=function (e) {
     var key=e.keyCode
     if(this.keysDown[key]) this.keysDown[key]();
-    e.preventDefault()
+    if(!e.ctrlKey)
+        e.preventDefault()
 }
 OAK.Engine.prototype.keyReleased=function (e) {
     var key=e.keyCode
@@ -154,11 +155,11 @@ OAK.Engine.prototype.initShaders=function() {
 OAK.Engine.prototype.initShadersPackage=function(shaderPackage) {
         var gl=this.canvas;
         if(!gl) throw "canvas not selected";
-
+        this.shaders[shaderPackage.name]=shaderPackage;
+        this.curShader = shaderPackage.name;
         shaderPackage.program=new Shader(gl,this.vertexShader(shaderPackage.vertex),this.fragmentShader(shaderPackage.fragment),
         shaderPackage.uniform,
         shaderPackage.attribute);
-        this.shaders[shaderPackage.name]=shaderPackage;
         this.shaderProgram=shaderPackage.program;
         gl.uniform1i(this.shaderProgram.sampler, 0);
         gl.uniform1i(this.shaderProgram.samplerShadowMap, 1);

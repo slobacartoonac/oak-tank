@@ -70,7 +70,7 @@ vec3 nNorm=normalize(normal * normalMatrix);\n\
 vNormal=normal;\n\
 vUV=uv;\n\
 mat_ambijent_add=vec3(.0,.0,.0);\n\
-for(int i=0;i<35;i+=7)\n\
+for(int i=0;i<24;i+=7)\n\
 {\n\
     vec3 raz=vec3(Flights[i+3],Flights[i+4],Flights[i+5])-vec3(hPos.x,hPos.y,hPos.z);\n\
       mat_ambijent_add+=max(Flights[i+6]-length(raz),0.)/Flights[i+6]*vec3(Flights[i],Flights[i+1],Flights[i+2])*max(.3, dot(nNorm,normalize(raz)));\n\

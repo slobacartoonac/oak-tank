@@ -59,7 +59,7 @@ const float mat_shininess=10.;\n\
 void main(void) {\n\
 vec3 mat_ambijent_add=vec3(.0,.0,.0);\n\
 vec3 nNorm=vNormal*inv_trans;\n\
-for(int i=0;i<35;i+=7)\n\
+for(int i=0;i<24;i+=7)\n\
 {\n\
     vec3 raz=vec3(Flights[i+3]+0.001,Flights[i+4],Flights[i+5])-hPos;\n\
       mat_ambijent_add+=max(Flights[i+6]-length(raz),0.)/(Flights[i+6]+0.001)*vec3(Flights[i],Flights[i+1],Flights[i+2])*max(.2, dot(nNorm,normalize(raz)));\n\
@@ -122,7 +122,7 @@ const float mat_shininess=20.;\n\
 void main(void) {\n\
 vec3 mat_ambijent_add=vec3(.0,.0,.0);\n\
 vec3 nNorm=vNormal*inv_trans;\n\
-for(int i=0;i<35;i+=7)\n\
+for(int i=0;i<24;i+=7)\n\
 {\n\
     vec3 raz=vec3(Flights[i+3]+0.001,Flights[i+4],Flights[i+5])-hPos;\n\
       mat_ambijent_add+=max(Flights[i+6]-length(raz),0.)/(Flights[i+6]+0.001)*vec3(Flights[i],Flights[i+1],Flights[i+2]);\n\
@@ -136,7 +136,8 @@ float texelSize = 1.0 / 1024.0;\n\
       shadowCoeff+=1.-smoothstep(0.005, 0.006, vLightPos.z-texture2D(samplerShadowMap, uv_shadowMap+vec2(i,j)*texelSize).r);\n\
 }\n\
 shadowCoeff/=9.0;\n\
-vec4 color4=texture2D(sampler,vec2(hPos.x+cos(time*.2+hPos.x*.125+hPos.z*.2),hPos.z+sin(time*.2+hPos.z*.125+hPos.x*.2))*0.1);\n\
+vec4 color4=texture2D(sampler,vec2(hPos.x+cos(time*.2+hPos.x*.125+hPos.z*.2),hPos.z+sin(time*.2+hPos.z*.125+hPos.x*.2))*0.05)+\n\
+texture2D(sampler,vec2(hPos.x+0.5+cos(-time*.3+hPos.x*.125+hPos.z*.2)*0.5,hPos.z+0.5+sin(-time*.3+hPos.z*.125+hPos.x*.2))*0.07);\n\
 vec3 I_ambient=source_ambient_color*(mat_ambient_color+mat_ambijent_add);\n\
 vec3 I_diffuse=source_diffuse_color*mat_diffuse_color*max(0., dot(vNormal, source_direction));\n\
 \n\

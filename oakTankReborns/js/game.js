@@ -49,18 +49,18 @@ function eventDown()
 function eventStop()
 {
     player.direction(0,0);
-    console.log('stop');
+    //console.log('stop');
 }
 
 function eventStopUpDown()
 {
     player.direction(null,0);
-    console.log('stop');
+    //console.log('stop');
 }
 function eventStopLeftRight()
 {
     player.direction(0,null);
-    console.log('stop');
+    //console.log('stop');
 }
 
 
@@ -69,18 +69,18 @@ function eventStopLeftRight()
 function eventClicked()
 {
     player.shoot=1;
-    console.log('clicked');
+    //console.log('clicked');
 }
 
 function eventShoot()
 {
     player.shoot=2;
-    console.log('eventShoot');
+    //console.log('eventShoot');
 }
 function eventDontShot()
 {
     player.shoot=0;
-    console.log('eventdShoot');
+    //console.log('eventdShoot');
 }
 function eventExit()
 {
@@ -112,16 +112,47 @@ engine.selectCanvas(canvas);
         {
         name: "defolt",
         program:null,
-        vertex: shader_vertex_source,
-        fragment: shader_fragment_source,
+        vertex: shader_vertex_source1,
+        fragment: shader_fragment_source1,
         uniform: shader_uniform_source1,
         attribute: shader_attribure_source1,
         }
         );
-    // engine.selectShader("water");
-    // engine.vertexShader(shader_vertex_water);
-    // engine.fragmentShader(shader_fragment_water);
-    // engine.initShaders();
+    engine.initShadersPackage(
+        {
+        name: "water",
+        program:null,
+        vertex: shader_vertex_water,
+        fragment: shader_fragment_water,
+        uniform: shader_uniform_source1.concat(["time"]),
+        attribute: shader_attribure_source1,
+        }
+        );
+    engine.initShaders();
+
+    engine.initShadersPackage(
+        {
+        name: "shadow",
+        program:null,
+        vertex: shader_vertex_source_shadowMap,
+        fragment: shader_fragment_source_shadowMap,
+        uniform: shader_uniform_source1,
+        attribute: shader_attribure_source1,
+        }
+        );
+    engine.initShaders();
+
+    engine.initShadersPackage(
+        {
+        name: "efects",
+        program:null,
+        vertex: efectVert,
+        fragment: efectFrag,
+        uniform: shader_uniform_source1,
+        attribute: shader_attribure_source1,
+        }
+        );
+    engine.initShaders();
     // engine.selectShader("shadow");
     // engine.vertexShader(shader_vertex_source_shadowMap);
     // engine.fragmentShader(shader_fragment_source_shadowMap);
@@ -157,7 +188,7 @@ loader.onLoad(function (data) {
 
      engine.loadTexture("explosion","../oakTankWorld/img/explosion1.png");
      engine.loadTexture("barrel","../oakTankWorld/img/barrel.png");
-    engine.loadTexture("water","../oakTankWorld/img/water6.png");
+    engine.loadTexture("water","../oakTankWorld/img/water8.1.png");
      engine.loadTexture("kucica","../oakTankWorld/img/kucica2.png");
     engine.loadTexture("to2","../oakTankWorld/img/rest3.png");
     engine.loadTexture("tankg","../oakTankWorld/img/tankg.png");
