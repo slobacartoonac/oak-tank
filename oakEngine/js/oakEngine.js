@@ -137,6 +137,8 @@ OAK.Engine.prototype.initShaders=function() {
         this.shaders[this.curShader].program=this.shaderProgram;
         gl.uniform1i(this.shaderProgram.sampler, 0);
         gl.uniform1i(this.shaderProgram.samplerShadowMap, 1);
+        if(this.shaderProgram.sampler2)
+            gl.uniform1i(this.shaderProgram.sampler2, 2);
         var lightd={x:5,y:7,z:5};
         lightd=V3Normalise(lightd);
         OAK.LIGHTDIR=[lightd.x,lightd.y,lightd.z];
@@ -163,6 +165,8 @@ OAK.Engine.prototype.initShadersPackage=function(shaderPackage) {
         this.shaderProgram=shaderPackage.program;
         gl.uniform1i(this.shaderProgram.sampler, 0);
         gl.uniform1i(this.shaderProgram.samplerShadowMap, 1);
+        if(this.shaderProgram.sampler2)
+            gl.uniform1i(this.shaderProgram.sampler2, 2);
         var lightd={x:5,y:7,z:5};
         lightd=V3Normalise(lightd);
         OAK.LIGHTDIR=[lightd.x,lightd.y,lightd.z];
@@ -178,27 +182,31 @@ OAK.Engine.prototype.initShadersPackage=function(shaderPackage) {
         
 			//gl.depthFunc(gl.LESS);
     }
-OAK.Engine.prototype.loadTexture=function(textureID,url)
+OAK.Engine.prototype.loadTexture=function(textureID,url, url2)
 {
     var gl=this.canvas;
     var link=this;
-    var texture = gl.createTexture();
-    texture.image = new Image();
-    texture.image.onload=function (params) {
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
-        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE,texture.image);
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
-        gl.generateMipmap(gl.TEXTURE_2D)
-        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR)
-        gl.bindTexture(gl.TEXTURE_2D, null);
-        gl.activeTexture(gl.TEXTURE0);
-        gl.bindTexture(gl.TEXTURE_2D, texture);
-        link.tReady--;
+    function load(path){
+        if(!path){
+            return null;
+        }
+        var texture = gl.createTexture();
+        texture.image = new Image();
+        texture.image.onload=function (params) {
+            gl.bindTexture(gl.TEXTURE_2D, texture);
+            gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+            gl.generateMipmap(gl.TEXTURE_2D)
+            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR)
+            gl.bindTexture(gl.TEXTURE_2D, null);
+            link.tReady--;
+        }
+        link.tReady++;
+        texture.image.src=path;
+        return texture
     }
-    link.tReady++;
-    texture.image.src=url;
-    link.textures[textureID]=texture;
+    link.textures[textureID]=new OAK.Texture(gl,load(url), load(url2));
 }
 OAK.Engine.prototype.loadModel=function(name,dataOrJson)
 {

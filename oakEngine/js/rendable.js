@@ -8,7 +8,6 @@ OAK.Rendable=function(gl,model,texture,position,rotation,shaderid)
     this.texture=texture;
     this.position=position;
     this.rotation=rotation;
-    this.lastTexture=texture;
     if(shaderid)
         this.shaderid=shaderid;
     else 
@@ -36,11 +35,7 @@ OAK.Rendable.prototype.Draw=function(shaderProgram)
     gl.uniformMatrix4fv(shaderProgram.Mmatrix, false, this.mov_matrix);
     if(shaderProgram.inv_trans)
         gl.uniformMatrix3fv(shaderProgram.inv_trans, false, this.inv_trans);
-    if(OAK.lastTexture!=this.texture||OAK.lastShader==shaderProgram){
-        gl.activeTexture(gl.TEXTURE0);
-	    gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        OAK.lastTexture=this.texture;
-    }
+    this.texture.Draw(shaderProgram);
     this.model.Draw(shaderProgram);
 }
 OAK.Rendable.prototype.Draw1=function(shaderProgram)
@@ -57,14 +52,10 @@ OAK.Rendable.prototype.Draw1=function(shaderProgram)
     gl.uniformMatrix4fv(shaderProgram.Mmatrix, false, this.mov_matrix);
     if(shaderProgram.inv_trans)
         gl.uniformMatrix3fv(shaderProgram.inv_trans, false, this.inv_trans);
-    if(OAK.lastTexture!=this.texture||OAK.lastShader==shaderProgram){
-        gl.activeTexture(gl.TEXTURE0);
-	    gl.bindTexture(gl.TEXTURE_2D, this.texture);
-        OAK.lastTexture=this.texture;
-    }
+
+    this.texture.Draw(shaderProgram);
     this.model.Draw(shaderProgram);
 }
-
 
 OAK.ARendable=function(gl,model,texture,position,rotation,shaderid)
 {
@@ -103,11 +94,6 @@ OAK.ARendable.prototype.Draw=function(shaderProgram)
     if(shaderProgram.inv_trans>=0)
         gl.uniformMatrix3fv(shaderProgram.inv_trans, false, this.inv_trans);
     this.lastTexture=this.texture[this.curText%this.numText];
-    if(OAK.lastTexture!=this.lastTexture||OAK.lastShader==shaderProgram){
-        gl.activeTexture(gl.TEXTURE0);
-	    gl.bindTexture(gl.TEXTURE_2D, this.lastTexture);
-        //OAK.bindTexture+=1;
-        OAK.lastTexture=this.lastTexture;
-    }
+    this.lastTexture.Draw(shaderProgram);
     this.model[this.curModel%this.numModel].Draw(shaderProgram);
 }

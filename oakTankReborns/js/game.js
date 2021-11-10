@@ -186,10 +186,10 @@ toload.forEach(function(element) {
 loader.onLoad(function (data) {
      
 
-     engine.loadTexture("explosion","../oakTankWorld/img/explosion1.png");
-     engine.loadTexture("barrel","../oakTankWorld/img/barrel.png");
-    engine.loadTexture("water","../oakTankWorld/img/water8.1.png");
-     engine.loadTexture("kucica","../oakTankWorld/img/kucica2.png");
+    engine.loadTexture("explosion","../oakTankWorld/img/explosion1.png");
+    engine.loadTexture("barrel","../oakTankWorld/img/barrel.png");
+    engine.loadTexture("water","../oakTankWorld/img/water8.1.png", "../oakTankWorld/img/clouds.png");
+    engine.loadTexture("kucica","../oakTankWorld/img/kucica2.png");
     engine.loadTexture("to2","../oakTankWorld/img/rest3.png");
     engine.loadTexture("tankg","../oakTankWorld/img/tankg.png");
     engine.loadTexture("tankb","../oakTankWorld/img/tankb.png");
@@ -243,7 +243,6 @@ function run(params) {
     camera.lookAt(0,150,-40,0,0,0,.0,1,.0);
     camera.setProjection(0.6, canvas.width,canvas.height, 1., 1000.,true);
     OAK.gameResize=function(){camera.setProjection(0.6, engine.preview[0],engine.preview[1], 1., 1000.,true);};
-
    
     var moremap=JSON.parse(mapFirstlevel);
      var map=new Map(engine,mapLeg);

@@ -1,5 +1,5 @@
   var shader_attribure_source1=["position","normal","uv"];
-  var shader_uniform_source1=["sampler","samplerShadowMap","Flights","source_direction","inv_trans",
+  var shader_uniform_source1=["sampler","samplerShadowMap","sampler2","Flights","source_direction","inv_trans",
   "Pmatrix","Vmatrix","Mmatrix","Lmatrix","PmatrixLight"];
   
   var shader_vertex_source1="\n\
@@ -105,7 +105,9 @@ vUV=uv;\n\
 
   var shader_fragment_water="\n\
 precision mediump float;\n\
-uniform sampler2D sampler, samplerShadowMap;\n\
+uniform sampler2D sampler;  \n\
+uniform sampler2D samplerShadowMap;   \n\
+uniform sampler2D sampler2;   \n\
 uniform float Flights[30];\n\
 uniform float time;\n\
 uniform vec3 source_direction;\n\
@@ -137,10 +139,16 @@ float texelSize = 1.0 / 1024.0;\n\
 }\n\
 shadowCoeff/=9.0;\n\
 vec4 color4=texture2D(sampler,vec2(hPos.x+cos(time*.2+hPos.x*.125+hPos.z*.2),hPos.z+sin(time*.2+hPos.z*.125+hPos.x*.2))*0.05)+\n\
-texture2D(sampler,vec2(hPos.x+0.5+cos(-time*.3+hPos.x*.125+hPos.z*.2)*0.5,hPos.z+0.5+sin(-time*.3+hPos.z*.125+hPos.x*.2))*0.07);\n\
+texture2D(sampler2,vec2(hPos.x+0.5+cos(-time*.3+hPos.x*.125+hPos.z*.2)*0.5,hPos.z+0.5+sin(-time*.3+hPos.z*.125+hPos.x*.2))*0.07);\n\
 vec3 I_ambient=source_ambient_color*(mat_ambient_color+mat_ambijent_add);\n\
 vec3 I_diffuse=source_diffuse_color*mat_diffuse_color*max(0., dot(vNormal, source_direction));\n\
 \n\
 vec3 I=I_ambient+shadowCoeff*I_diffuse;\n\
 gl_FragColor = vec4(I*color4.rgb, color4.a);\n\
 }"
+
+/*
+texture2D(sampler,vec2(hPos.x+cos(time*.2+hPos.x*.125+hPos.z*.2),hPos.z+sin(time*.2+hPos.z*.125+hPos.x*.2))*0.05)+\n\
+texture2D(sampler,vec2(hPos.x+0.5+cos(-time*.3+hPos.x*.125+hPos.z*.2)*0.5,hPos.z+0.5+sin(-time*.3+hPos.z*.125+hPos.x*.2))*0.07)+\n\
+texture2D(sampler2, vec2(rPosition.x+cos(time*.2+rPosition.x*.125+rPosition.z*.2),rPosition.z+sin(time*.2+rPosition.z*.125+rPosition.x*.2))*0.005);\n\
+*/
