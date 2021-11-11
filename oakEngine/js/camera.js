@@ -128,3 +128,8 @@ OAK.Camera.prototype.getProj=function()
 {
 return this.proj_matrix;
 }
+OAK.Camera.prototype.cameraPosition=function()
+{
+return [this.position.x,this.position.y,this.position.z];
+}
+

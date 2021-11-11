@@ -124,7 +124,7 @@ engine.selectCanvas(canvas);
         program:null,
         vertex: shader_vertex_water,
         fragment: shader_fragment_water,
-        uniform: shader_uniform_source1.concat(["time"]),
+        uniform: shader_uniform_source1.concat(["time", "cameraPosition"]),
         attribute: shader_attribure_source1,
         }
         );

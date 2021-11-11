@@ -86,6 +86,8 @@ gl_FragColor = vec4(I*color4.rgb, color4.a);\n\
 attribute vec3 position, normal;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;\n\
+uniform vec3 cameraPosition;\n\
+varying vec3 cPos;\n\
 varying vec2 vUV;\n\
 varying vec3 vNormal, vLightPos;\n\
 varying vec3 hPos;\n\
@@ -97,6 +99,7 @@ lightPos=PmatrixLight*lightPos;\n\
 vec3 lightPosDNC=lightPos.xyz/lightPos.w;\n\
 vLightPos=vec3(0.5,0.5,0.5)+lightPosDNC*0.5;\n\
 vec3 rPos=vec3(Mmatrix*vec4(position, 1.));\n\
+cPos=vec3(Mmatrix*vec4(position-cameraPosition, 1.));\n\
 hPos=rPos;\n\
 gl_Position = Pmatrix*Vmatrix*vec4(rPos, 1.);\n\
 vNormal=normal;\n\
@@ -114,6 +117,7 @@ uniform vec3 source_direction;\n\
 varying vec2 vUV;\n\
 varying vec3 vNormal, vLightPos;\n\
 varying vec3 hPos;\n\
+varying vec3 cPos;\n\
 uniform mat3 inv_trans;\n\
 const vec3 source_ambient_color=vec3(1.,1.,1.);\n\
 const vec3 source_diffuse_color=vec3(1.,1.,1.);\n\
@@ -138,8 +142,12 @@ float texelSize = 1.0 / 1024.0;\n\
       shadowCoeff+=1.-smoothstep(0.005, 0.006, vLightPos.z-texture2D(samplerShadowMap, uv_shadowMap+vec2(i,j)*texelSize).r);\n\
 }\n\
 shadowCoeff/=9.0;\n\
-vec4 color4=texture2D(sampler,vec2(hPos.x+cos(time*.2+hPos.x*.125+hPos.z*.2),hPos.z+sin(time*.2+hPos.z*.125+hPos.x*.2))*0.05)+\n\
-texture2D(sampler2,vec2(hPos.x+0.5+cos(-time*.3+hPos.x*.125+hPos.z*.2)*0.5,hPos.z+0.5+sin(-time*.3+hPos.z*.125+hPos.x*.2))*0.07);\n\
+vec2 wave_shift = vec2(cos(time*.5+hPos.x*.0525+hPos.z*.02), sin(time*.5+hPos.z*.0525+hPos.x*.02))*0.1;\n\
+vec4 color4=texture2D(sampler, hPos.xz*0.05 + vec2(-hPos.z*0.01 + time*.0051+time*.0061) + wave_shift)+\n\
+texture2D(sampler,vec2(-hPos.x+time*.12,-hPos.z+hPos.x*0.3+0.5+time*.1)*0.051 - wave_shift*0.8)*vec4(0.6,0.6,0.6,0.1)+\n\
+texture2D(sampler2, cPos.xz*0.01 \n\
+  + wave_shift*1.5)*\n\
+  vec4(0.6,0.6,0.6,0.1);\n\
 vec3 I_ambient=source_ambient_color*(mat_ambient_color+mat_ambijent_add);\n\
 vec3 I_diffuse=source_diffuse_color*mat_diffuse_color*max(0., dot(vNormal, source_direction));\n\
 \n\

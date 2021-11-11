@@ -319,6 +319,8 @@ OAK.Engine.prototype.render=function () {
     gl.uniformMatrix4fv(shaderProgram.Vmatrix, false, cam.getMat());
     gl.uniformMatrix4fv(shaderProgram.PmatrixLight, false, cam.getLightProj());
     gl.uniformMatrix4fv(shaderProgram.Lmatrix, false, cam.getLight());
+    if(shaderProgram.cameraPosition)
+            gl.uniform3fv(shaderProgram.cameraPosition, cam.cameraPosition());
     if(this.texture_rtt){
         gl.activeTexture(gl.TEXTURE1);
         gl.bindTexture(gl.TEXTURE_2D, this.texture_rtt);
@@ -333,6 +335,8 @@ OAK.Engine.prototype.render=function () {
         shaderProgram=this.shaderProgram;
         gl.uniformMatrix4fv(shaderProgram.Pmatrix, false, cam.getProj());
         gl.uniformMatrix4fv(shaderProgram.Vmatrix, false, cam.getMat());
+        if(shaderProgram.cameraPosition)
+            gl.uniform3fv(shaderProgram.cameraPosition, cam.cameraPosition());
         /*gl.cullFace(gl.FRONT);    
         for(var r=0;r<this.efects.length;r++){
             this.efects[r].Draw(shaderProgram);
