@@ -174,7 +174,7 @@ function start() {
 
         engine.loadTexture("explosion", "img/explosion1.png");
         engine.loadTexture("barrel", "img/barrel.png");
-        engine.loadTexture("water", "img/water8.1.png", "img/clouds.png");
+        engine.loadTexture("water", "oakTankWorld/img/water8.1.png", "oakTankWorld/img/clouds.png");
         engine.loadTexture("kucica", "img/kucica2.png");
         engine.loadTexture("to2", "img/rest3.png");
         engine.loadTexture("tankg", "img/tankg.png");
