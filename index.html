@@ -293,11 +293,15 @@
     <div>
         <script>
             function ReloadGame() {
-                location.reload();
+                location.reload()
             };
             function resizeFunc() {
-                var doc = document.getElementById('canvas'); doc.style.width = window.innerWidth;
-                doc.style.height = window.innerHeight; doc.width = window.innerWidth; doc.height = window.innerHeight;
+                var doc = document.getElementById('canvas')
+                doc.style.width = window.innerWidth - 10
+                doc.style.height = window.innerHeight - 10
+                doc.width = window.innerWidth - 10
+                doc.height = window.innerHeight - 10
                 OAK.gameResize()
-            } resizeFunc(); window.addEventListener('resize', resizeFunc); </script>
+            } resizeFunc(); window.addEventListener('resize', resizeFunc); 
+        </script>
 </body>
