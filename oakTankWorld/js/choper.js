@@ -6,8 +6,8 @@ function Choper(model, model1, controler) {
     this.dest = { x: model.position.x, y: model.position.y, z: model.position.z };
     this.stable = { x: model.position.x, y: model.position.y, z: model.position.z };
     this.upgrade = [0, 0, 0, 0];//4upgrades speed refresh helth invinsability 
-    this.speed = 50.0;
-    this.turn_speed = 8;
+    this.speed = 40.0;
+    this.turn_speed = 5;
     this.driver = null;
     this.helthMax = this.size * 3;
     this.helth = this.helthMax;
