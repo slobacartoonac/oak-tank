@@ -226,7 +226,7 @@ function start() {
     camera = engine.getCamera("camId", false);
     function run(params) {
 
-        camera.lookAt(0, 150, -40, 0, 0, 0, .0, 1, .0);
+        camera.lookAt(0, 120, -30, 0, 0, 0, .0, 1, .0);
         camera.setProjection(0.6, canvas.width, canvas.height, 1., 1000., true);
         OAK.gameResize = function () { camera.setProjection(0.6, engine.preview[0], engine.preview[1], 1., 1000., true); };
 
