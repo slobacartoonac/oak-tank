@@ -1,8 +1,8 @@
-  var shader_attribure_source1=["position","normal","uv"];
-  var shader_uniform_source1=["sampler","samplerShadowMap","sampler2","Flights","source_direction","inv_trans",
-  "Pmatrix","Vmatrix","Mmatrix","Lmatrix","PmatrixLight"];
-  
-  var shader_vertex_source1="\n\
+var shader_attribure_source1 = ["position", "normal", "uv"];
+var shader_uniform_source1 = ["sampler", "samplerShadowMap", "sampler2", "Flights", "source_direction", "inv_trans",
+  "Pmatrix", "Vmatrix", "Mmatrix", "Lmatrix", "PmatrixLight"];
+
+var shader_vertex_source1 = "\n\
 attribute vec3 position, normal;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;\n\
@@ -41,7 +41,7 @@ result[2][2] =  (A[0][0]*A[1][1]-A[1][0]*A[0][1])*invdet;\n\
 return result;\n\
 }\n\ */
 
-  var shader_fragment_source1="\n\
+var shader_fragment_source1 = "\n\
 precision mediump float;\n\
 uniform sampler2D sampler, samplerShadowMap;\n\
 uniform float Flights[30];\n\
@@ -82,7 +82,7 @@ gl_FragColor = vec4(I*color4.rgb, color4.a);\n\
 }"
 
 
-  var shader_vertex_water="\n\
+var shader_vertex_water = "\n\
 attribute vec3 position, normal;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;\n\
@@ -106,7 +106,7 @@ vNormal=normal;\n\
 vUV=uv;\n\
 }";
 
-  var shader_fragment_water="\n\
+var shader_fragment_water = "\n\
 precision mediump float;\n\
 uniform sampler2D sampler;  \n\
 uniform sampler2D samplerShadowMap;   \n\
@@ -142,9 +142,9 @@ float texelSize = 1.0 / 1024.0;\n\
       shadowCoeff+=1.-smoothstep(0.005, 0.006, vLightPos.z-texture2D(samplerShadowMap, uv_shadowMap+vec2(i,j)*texelSize).r);\n\
 }\n\
 shadowCoeff/=9.0;\n\
-vec2 wave_shift = vec2(cos(time*.5+hPos.x*.0525+hPos.z*.02), sin(time*.5+hPos.z*.0525+hPos.x*.02))*0.1;\n\
-vec4 color4=texture2D(sampler, hPos.xz*0.05 + vec2(-hPos.z*0.01 + time*.0051+time*.0061) + wave_shift)+\n\
-texture2D(sampler,vec2(-hPos.x+time*.12,-hPos.z+hPos.x*0.3+0.5+time*.1)*0.051 - wave_shift*0.8)*vec4(0.6,0.6,0.6,0.1)+\n\
+vec2 wave_shift = vec2(cos(time*.05+hPos.x*.0525+hPos.z*.02), sin(time*.05+hPos.z*.0525+hPos.x*.02))*0.1;\n\
+vec4 color4=texture2D(sampler, hPos.xz*0.05 + vec2(-hPos.z*0.01 + time*.00051+time*.00061) + wave_shift)+\n\
+texture2D(sampler,vec2(-hPos.x+time*.012,-hPos.z+hPos.x*0.3+0.5+time*.01)*0.051 - wave_shift*0.8)*vec4(0.6,0.6,0.6,0.1)+\n\
 texture2D(sampler2, cPos.xz*0.01 \n\
   + wave_shift*1.5)*\n\
   vec4(0.6,0.6,0.6,0.1);\n\
