@@ -1,4 +1,4 @@
-function setLegend(mapLeg) {
+export function setLegend(mapLeg) {
     mapLeg.addResource("tank2", "data/tank2.txt", mapLeg.tMesh)
     mapLeg.addResource("plane", "data/plane.txt", mapLeg.tMesh)
     mapLeg.addResource("proj", "data/projectile.txt", mapLeg.tMesh)
@@ -29,14 +29,14 @@ function setLegend(mapLeg) {
 }
 //written by Slobodan Zivkovic slobacartoonac@gmail.com
 "use strict";
-function setVehicleControler(vehC) {
+export function setVehicleControler(vehC) {
     vehC.addType('tank', 'Tank', ['tank2'], ['grid', 'tankg', 'tankb'])
     vehC.addType('tankgun', 'TankGun', ['tankgun'], ['grid', 'tankgung', 'tankgunb'])
     vehC.addType('choper', 'Choper', ['choper'], ['grid', 'choperg', 'choperb'], ['plane'], ['elise', 'elise1'])
     vehC.addType('Barrel', 'PhysicalObject', ['barrel'], ['barrel'])
     vehC.addType('truper', 'Truper', ['mans', 'manl', 'mans', 'manr'], ['mangreen', 'manblue', 'manred']);
 }
-function setUnitLegend(unitsLegend) {
+export function setUnitLegend(unitsLegend) {
     unitsLegend.add(1, 'tank', 'Enemy', 1);
     unitsLegend.add(2, 'tankgun', 'Enemy', 1);
     unitsLegend.add(3, 'choper', 'Enemy', 1);

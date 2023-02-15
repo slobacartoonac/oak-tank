@@ -1,6 +1,10 @@
 //written by Slobodan Zivkovic slobacartoonac@gmail.com
 "use strict";
-function Tank(model, controler) {
+
+import { neerestAngle } from "./globalFunctions";
+import { Vehicle } from "./vehicle";
+
+export function Tank(model, controler) {
     Vehicle.call(this, model, controler);
     this.dest = { x: model.position.x, y: model.position.y, z: model.position.z };
     this.stable = { x: model.position.x, y: model.position.y, z: model.position.z };
@@ -74,7 +78,7 @@ Tank.prototype.shoot = function () {
     }
 }
 
-function TankGun(model, controler) {
+export function TankGun(model, controler) {
     Tank.call(this, model, controler);
     this.upgrade = [0, 0, 0, 0];//4upgrades speed refresh helth invinsability 
     this.speed = 35.0;

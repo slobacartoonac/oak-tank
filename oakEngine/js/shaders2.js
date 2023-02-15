@@ -1,8 +1,8 @@
-var shader_attribure_source1 = ["position", "normal", "uv"];
-var shader_uniform_source1 = ["sampler", "samplerShadowMap", "sampler2", "Flights", "source_direction", "inv_trans",
+export var shader_attribure_source1 = ["position", "normal", "uv"];
+export var shader_uniform_source1 = ["sampler", "samplerShadowMap", "sampler2", "Flights", "source_direction", "inv_trans",
   "Pmatrix", "Vmatrix", "Mmatrix", "Lmatrix", "PmatrixLight"];
 
-var shader_vertex_source1 = "\n\
+export var shader_vertex_source1 = "\n\
 attribute vec3 position, normal;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;\n\
@@ -41,7 +41,7 @@ result[2][2] =  (A[0][0]*A[1][1]-A[1][0]*A[0][1])*invdet;\n\
 return result;\n\
 }\n\ */
 
-var shader_fragment_source1 = "\n\
+export var shader_fragment_source1 = "\n\
 precision mediump float;\n\
 uniform sampler2D sampler, samplerShadowMap;\n\
 uniform float Flights[30];\n\
@@ -82,7 +82,7 @@ gl_FragColor = vec4(I*color4.rgb, color4.a);\n\
 }"
 
 
-var shader_vertex_water = "\n\
+export var shader_vertex_water = "\n\
 attribute vec3 position, normal;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;\n\
@@ -106,7 +106,7 @@ vNormal=normal;\n\
 vUV=uv;\n\
 }";
 
-var shader_fragment_water = "\n\
+export var shader_fragment_water = "\n\
 precision mediump float;\n\
 uniform sampler2D sampler;  \n\
 uniform sampler2D samplerShadowMap;   \n\

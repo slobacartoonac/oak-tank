@@ -1,5 +1,22 @@
 //written by Slobodan Zivkovic slobacartoonac@gmail.com
 "use strict";
+
+import { OAK } from "../../oakEngine/js/oakEngine";
+import Touch from "../../js_lib/fe/touch"
+import { shader_attribure_source1, shader_fragment_source1, shader_fragment_water, shader_uniform_source1, shader_vertex_source1, shader_vertex_water } from "../../oakEngine/js/shaders2";
+import { efectFrag, efectVert, shader_fragment_source_shadowMap, shader_vertex_source_shadowMap } from "../../oakEngine/js/shadersimport";
+import { MapLegend } from "../../oakTankWorld/js/mapLegend";
+import { myAudio } from "../../oakTankWorld/js/audio";
+import { setLegend, setUnitLegend, setVehicleControler } from "../../oakTankWorld/js/setLegend";
+import { mapFirstlevel } from "./levels";
+import { Map } from "../../oakTankWorld/js/map";
+import { Physics } from "../../oakTankWorld/js/physics";
+import { Player } from "../../oakTankWorld/js/enemy";
+import { Sound } from "../../oakTankWorld/js/sound";
+import { tempControler } from "../../oakTankWorld/js/tempControler";
+import { VehicleControler } from "../../oakTankWorld/js/vehicleControler";
+import { UnitLegend } from "../../oakTankWorld/js/unitLegend";
+
 var gameScore = 0;
 var gameTime = 0;
 var leName = '0';
@@ -8,7 +25,7 @@ var player = null;
 var scorediv = null;
 var windiv = null; document.getElementById("windiv");
 var showgamecounter = 0;
-function gameDeclare(ta, tb, todo) {
+export function gameDeclare(ta, tb, todo) {
     if (showgamecounter == ta + tb) return;
     showgamecounter == ta + tb;
     scorediv.innerHTML = "Green " + ta + " - " + tb + " Blue";
@@ -57,8 +74,14 @@ function eventStopLeftRight() {
 
 
 
-function eventClicked() {
-    player.shoot = 1;
+function eventClicked(event) {
+    console.log(event)
+    if (event.isPrimary) {
+        player.shoot = 1;
+    } else {
+        eventExit()
+    }
+
     //console.log('clicked');
 }
 
@@ -83,11 +106,11 @@ function start() {
     var canvas = document.getElementById("canvas");
     scorediv = document.getElementById("scorediv");
     windiv = document.getElementById("windiv");
-    var touch = new Touch(canvas, 20);
+    var touch = new Touch(canvas, 10);
     touch.sub('up', eventUp);
     touch.sub('down', eventDown);
-    touch.sub('left', eventRight);
-    touch.sub('right', eventLeft);
+    touch.sub('left', eventLeft);
+    touch.sub('right', eventRight);
     touch.sub('click', eventClicked);
     touch.sub('stop', eventStop);
     touch.sub('force', force);
@@ -174,7 +197,7 @@ function start() {
 
         engine.loadTexture("explosion", "img/explosion1.png");
         engine.loadTexture("barrel", "img/barrel.png");
-        engine.loadTexture("water", "oakTankWorld/img/water8.1.png", "oakTankWorld/img/clouds.png");
+        engine.loadTexture("water", "img/water8.1.png", "/img/clouds.png");
         engine.loadTexture("kucica", "img/kucica2.png");
         engine.loadTexture("to2", "img/rest3.png");
         engine.loadTexture("tankg", "img/tankg.png");

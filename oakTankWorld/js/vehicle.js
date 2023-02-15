@@ -1,6 +1,10 @@
 //written by Slobodan Zivkovic slobacartoonac@gmail.com
 "use strict";
-function PhysicalObject(model, controler) {
+
+import { colide, distanceZ, neerestAngle } from "./globalFunctions";
+import { Truper } from "./truper";
+
+export function PhysicalObject(model, controler) {
     this.model = model;
     this.controler = controler;
     this.helthMax = 10;
@@ -40,7 +44,7 @@ PhysicalObject.prototype.demage = function (dmg, distance, physics) {
 }
 
 
-function Vehicle(model, controler) {
+export function Vehicle(model, controler) {
     PhysicalObject.call(this, model, controler);
     this.dest = { x: model.position.x, y: model.position.y, z: model.position.z };
     this.stable = { x: model.position.x, y: model.position.y, z: model.position.z };

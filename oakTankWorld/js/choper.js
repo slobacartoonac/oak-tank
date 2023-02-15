@@ -1,6 +1,10 @@
 //written by Slobodan Zivkovic slobacartoonac@gmail.com
 "use strict";
-function Choper(model, model1, controler) {
+
+import { neerestAngle } from "./globalFunctions";
+import { Vehicle } from "./vehicle";
+
+export function Choper(model, model1, controler) {
     Vehicle.call(this, model, controler);
     this.model1 = model1;
     this.dest = { x: model.position.x, y: model.position.y, z: model.position.z };

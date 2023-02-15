@@ -1,5 +1,5 @@
-  //mrckao sam Mmatrix
-  var shader_vertex_source_shadowMap="\n\
+//mrckao sam Mmatrix
+export var shader_vertex_source_shadowMap = "\n\
 attribute vec3 position;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Lmatrix,Mmatrix;\n\
@@ -15,7 +15,7 @@ gl_Position=position;\n\
 vUV=uv;\n\
 }";
 
-  var shader_fragment_source_shadowMap="\n\
+export var shader_fragment_source_shadowMap = "\n\
 precision mediump float;\n\
 varying float vDepth;\n\
 varying vec2 vPos;\n\
@@ -25,11 +25,11 @@ void main(void) {\n\
     if(texture2D(sampler, vUV).a>0.3)\n\
       gl_FragColor=vec4(vDepth, 0.,vDepth,1.);\n\
 }";
- /* if(vPos.x>.9||vPos.x<-0.9||vPos.y>.9||vPos.y<-0.9)\n\
-    gl_FragColor=vec4(1.,0.,0.,1.);\n\
-  else \n\*/
+/* if(vPos.x>.9||vPos.x<-0.9||vPos.y>.9||vPos.y<-0.9)\n\
+   gl_FragColor=vec4(1.,0.,0.,1.);\n\
+ else \n\*/
 
-  var shader_vertex_source="\n\
+export var shader_vertex_source = "\n\
 attribute vec3 position, normal;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix, Lmatrix, PmatrixLight;\n\
@@ -77,7 +77,7 @@ for(int i=0;i<24;i+=7)\n\
 }\n\
 }";
 
-  var shader_fragment_source="\n\
+export var shader_fragment_source = "\n\
 precision mediump float;\n\
 uniform sampler2D sampler, samplerShadowMap;\n\
 uniform vec3 source_direction;\n\
@@ -109,8 +109,8 @@ vec3 I=I_ambient+shadowCoeff*I_diffuse;\n\
 gl_FragColor = vec4(I*color, color4.a);\n\
 }";
 
-var efectVert = 
-'attribute vec3 position;\n\
+export var efectVert =
+  'attribute vec3 position;\n\
 attribute vec2 uv;\n\
 uniform mat4 Pmatrix, Vmatrix, Mmatrix;\n\
 varying vec2 vUV;\n\
@@ -119,7 +119,7 @@ varying vec2 vUV;\n\
                vUV=uv;\n\
             }';
 
-var efectFrag = '\n\
+export var efectFrag = '\n\
 precision mediump float;\n\
 uniform sampler2D sampler;\n\
 varying vec2 vUV;\n\
